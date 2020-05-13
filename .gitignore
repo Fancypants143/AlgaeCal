@@ -1,0 +1,4 @@
+# IntelliJ user data
+.idea/**
+*.iml
+*.swp
