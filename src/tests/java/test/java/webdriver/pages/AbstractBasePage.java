@@ -21,7 +21,7 @@ public abstract class AbstractBasePage {
      */
     public AbstractBasePage(WebDriver webdriver) {
         driver = (RemoteWebDriver) webdriver;
-        defaultWait = new WebDriverWait(driver, 30);
-        defaultLongWait = new WebDriverWait(driver, 120);
+        defaultWait = new WebDriverWait(driver, 15);
+        defaultLongWait = new WebDriverWait(driver, 30);
     }
 }
