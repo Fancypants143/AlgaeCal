@@ -17,8 +17,6 @@ import test.java.webdriver.pages.BoneBuilderPack;
 import test.java.webdriver.pages.Cart;
 import test.java.webdriver.pages.MainMenu;
 
-import java.util.concurrent.TimeUnit;
-
 import static java.lang.Thread.sleep;
 import static org.junit.Assert.assertTrue;
 
@@ -61,6 +59,9 @@ public class BoneBuilderPackTest{
         //using for setup to manage the WebDriver binaries
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
+
+        //if you want to maximize the page
+        //driver.manage().window().maximize();
 
         //
         driver.get("https://www.algaecal.com/");
@@ -106,11 +107,9 @@ public class BoneBuilderPackTest{
         assertTrue(cartPage.isCheckoutButtonVisible());
         validateTextOnPageExist(boneBuilderTwelveMonthPackText);
 
-        for(int i=0;i<3;i++)
-        {
-            cartPage.removeItemsFromCart();
+        for(int i=0;i<3;i++) {
+            cartPage.removeItemFromCart();
             driver.navigate().refresh();
-
         }
 
         validateTextOnPageExist(emptyCartText);
@@ -131,7 +130,7 @@ public class BoneBuilderPackTest{
         Cart cartPage = boneBuilderPage.clickCartByIndexOnPage(0);
         assertTrue(cartPage.isCheckoutButtonVisible());
         validateTextOnPageExist(boneBuilderThreeMonthPackText);
-        cartPage.removeItemsFromCart();
+        cartPage.removeItemFromCart();
         validateTextOnPageExist(emptyCartText);
     }
 
@@ -149,7 +148,7 @@ public class BoneBuilderPackTest{
         Cart cartPage = boneBuilderPage.clickCartByIndexOnPage(1);
         assertTrue(cartPage.isCheckoutButtonVisible());
         validateTextOnPageExist(boneBuilderSixMonthPackText);
-        cartPage.removeItemsFromCart();
+        cartPage.removeItemFromCart();
         validateTextOnPageExist(emptyCartText);
     }
 
@@ -167,12 +166,12 @@ public class BoneBuilderPackTest{
         Cart cartPage = boneBuilderPage.clickCartByIndexOnPage(2);
         assertTrue(cartPage.isCheckoutButtonVisible());
         validateTextOnPageExist(boneBuilderTwelveMonthPackText);
-        cartPage.removeItemsFromCart();
+        cartPage.removeItemFromCart();
         validateTextOnPageExist(emptyCartText);
     }
 
     private void validateTextOnPageExist(String text) throws InterruptedException {
-        sleep(3000);
+        sleep(2000);
         assertTrue("Error, Text does not exist on page. " + text,
                 driver.getPageSource().contains(text));
     }
