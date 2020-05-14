@@ -12,12 +12,14 @@ import org.junit.runner.Description;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeDriverService;
 import test.java.webdriver.pages.BoneBuilderPack;
 import test.java.webdriver.pages.Cart;
 import test.java.webdriver.pages.MainMenu;
 
+import java.util.concurrent.TimeUnit;
+
 import static java.lang.Thread.sleep;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class BoneBuilderPackTest{
@@ -43,7 +45,7 @@ public class BoneBuilderPackTest{
 
         protected void finished(Description description) {
             testName = description.getMethodName();
-            System.out.println("--- ENDING TEST: " + testName + " ---");
+            System.out.println("--- ENDING TEST: " + testName + " ---\n");
         }
     };
 
@@ -51,9 +53,16 @@ public class BoneBuilderPackTest{
      * Executed before each test
      */
     @Before
-    public void setup(){
+    public void setup() throws InterruptedException {
+
+        //suppress Chrome Warning from console  - Fix Timed out receiving message from renderer
+        System.setProperty(ChromeDriverService.CHROME_DRIVER_SILENT_OUTPUT_PROPERTY,"true");
+
+        //using for setup to manage the WebDriver binaries
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
+
+        //
         driver.get("https://www.algaecal.com/");
         mainMenu = new MainMenu(driver);
     }
