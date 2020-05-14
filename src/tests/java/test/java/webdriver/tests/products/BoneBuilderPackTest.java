@@ -27,8 +27,9 @@ public class BoneBuilderPackTest{
     private static final String boneBuilderTwelveMonthPackText = "Bone Builder Pack 12 Month Supply";
     private static final String emptyCartText = "Your cart is currently empty.";
 
-    WebDriver driver;
     private String testName;
+    WebDriver driver;
+    MainMenu mainMenu;
 
     /**
      * Will print to the console when the test starts and ends
@@ -54,6 +55,7 @@ public class BoneBuilderPackTest{
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         driver.get("https://www.algaecal.com/");
+        mainMenu = new MainMenu(driver);
     }
 
     /**
@@ -71,9 +73,8 @@ public class BoneBuilderPackTest{
      * @UserStory AlgaeCal QA Test
      */
     @Test
-    public void clickAddToCartButtons() throws InterruptedException {
+    public void clickAllAddToCartButtonsAndRemoveAll() throws InterruptedException {
 
-        MainMenu mainMenu = new MainMenu(driver);
         mainMenu.hoverOverProducts();
 
         //add cart 3 month supply, remove from cart
@@ -81,8 +82,6 @@ public class BoneBuilderPackTest{
         Cart cartPage = boneBuilderPage.clickCartByIndexOnPage(0);
         assertTrue(cartPage.isCheckoutButtonVisible());
         validateTextOnPageExist(boneBuilderThreeMonthPackText);
-        cartPage.removeItemsFromCart();
-        validateTextOnPageExist(emptyCartText);
 
         //add cart 6 month supply, remove from cart
         mainMenu.hoverOverProducts();
@@ -90,13 +89,73 @@ public class BoneBuilderPackTest{
         cartPage = boneBuilderPage.clickCartByIndexOnPage(1);
         assertTrue(cartPage.isCheckoutButtonVisible());
         validateTextOnPageExist(boneBuilderSixMonthPackText);
-        cartPage.removeItemsFromCart();
-        validateTextOnPageExist(emptyCartText);
 
         //add cart 12 month supply, remove from cart
         mainMenu.hoverOverProducts();
         boneBuilderPage = mainMenu.clickBoneBuilderLink();
         cartPage = boneBuilderPage.clickCartByIndexOnPage(2);
+        assertTrue(cartPage.isCheckoutButtonVisible());
+        validateTextOnPageExist(boneBuilderTwelveMonthPackText);
+
+        for(int i=0;i<3;i++)
+        {
+            cartPage.removeItemsFromCart();
+            driver.navigate().refresh();
+
+        }
+
+        validateTextOnPageExist(emptyCartText);
+    }
+
+    /**
+     * This test verifies the 3 month supply add to cart button function on the Bone Builder Product Page.
+     *
+     * @Author Tammy Saucedo
+     * @UserStory AlgaeCal QA Test
+     */
+    @Test
+    public void clickThreeMonthAddToCartButton() throws InterruptedException {
+
+        //add cart 3 month supply, remove from cart
+        mainMenu.hoverOverProducts();
+        BoneBuilderPack boneBuilderPage = mainMenu.clickBoneBuilderLink();
+        Cart cartPage = boneBuilderPage.clickCartByIndexOnPage(0);
+        assertTrue(cartPage.isCheckoutButtonVisible());
+        validateTextOnPageExist(boneBuilderThreeMonthPackText);
+        cartPage.removeItemsFromCart();
+        validateTextOnPageExist(emptyCartText);
+    }
+
+    /**
+     * This test verifies the 6 month supply add to cart button function on the Bone Builder Product Page.
+     *
+     * @Author Tammy Saucedo
+     * @UserStory AlgaeCal QA Test
+     */
+    @Test
+    public void clickSixMonthAddToCartButton() throws InterruptedException {
+        //add cart 6 month supply, remove from cart
+        mainMenu.hoverOverProducts();
+        BoneBuilderPack boneBuilderPage = mainMenu.clickBoneBuilderLink();
+        Cart cartPage = boneBuilderPage.clickCartByIndexOnPage(1);
+        assertTrue(cartPage.isCheckoutButtonVisible());
+        validateTextOnPageExist(boneBuilderSixMonthPackText);
+        cartPage.removeItemsFromCart();
+        validateTextOnPageExist(emptyCartText);
+    }
+
+    /**
+     * This test verifies the 12 month supply add to cart button function on the Bone Builder Product Page.
+     *
+     * @Author Tammy Saucedo
+     * @UserStory AlgaeCal QA Test
+     */
+    @Test
+    public void clickTwelveMonthAddToCartButton() throws InterruptedException {
+        //add cart 12 month supply, remove from cart
+        mainMenu.hoverOverProducts();
+        BoneBuilderPack boneBuilderPage = mainMenu.clickBoneBuilderLink();
+        Cart cartPage = boneBuilderPage.clickCartByIndexOnPage(2);
         assertTrue(cartPage.isCheckoutButtonVisible());
         validateTextOnPageExist(boneBuilderTwelveMonthPackText);
         cartPage.removeItemsFromCart();
